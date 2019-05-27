@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Button} from 'react-native';
-import {Scanner} from './Scanner'
+import {withScanner} from './Scanner'
 const serverDetails = {
   port: 4080,
   address: '127.0.0.1'
@@ -21,26 +21,19 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
-  constructor(props) {
-    super(props)
-    this.scanner = new Scanner(serverDetails)
-    this.state = {
-       
-    }
-  }
-  
+class App extends Component<Props> {
   startScan(){
-    if(this.scanner.scanStatus) {
-      this.scanner.stopScan()
+    console.log('this.props.scanStatus', this.props.scanStatus)
+    if(this.props.scanStatus) {
+      this.props.stopScan()
     }else{
-      this.scanner.startScan()
+      this.props.startScan()
     }
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text>Does it Refresh?</Text>
+        <Text>{this.props.data.join(", ")}</Text>
         <Button 
           title={"Click to start scan"}
           onPress={()=>this.startScan()} />
@@ -68,3 +61,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export default withScanner(serverDetails,App)
