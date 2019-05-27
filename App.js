@@ -7,8 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-
+import {Platform, StyleSheet, Text, View,Button} from 'react-native';
+import {Scanner} from './Scanner'
+const serverDetails = {
+  port: 4080,
+  address: '127.0.0.1'
+}
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -18,12 +22,29 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor(props) {
+    super(props)
+    this.scanner = new Scanner(serverDetails)
+    this.state = {
+       
+    }
+  }
+  
+  startScan(){
+    if(this.scanner.scanStatus) {
+      this.scanner.stopScan()
+    }else{
+      this.scanner.startScan()
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text>Does it Refresh?</Text>
+        <Button 
+          title={"Click to start scan"}
+          onPress={()=>this.startScan()} />
+        
       </View>
     );
   }
