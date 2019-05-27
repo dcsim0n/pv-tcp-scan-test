@@ -33,7 +33,6 @@ export function withScanner ({address,port,interval=1},ComponentToWrap){
             this.setState({
                 data: [...data, data.length]
             })
-            console.log(`Getting data from ${this.address}:${this.port}.   ${this.state.data.length}...`)
             sendData({address: this.address,port: this.port},'id ?\r')
         }
         startScan() {
